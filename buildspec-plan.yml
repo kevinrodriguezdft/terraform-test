@@ -15,9 +15,10 @@ phases:
 
   build:
     commands:
+      - ls -la
       - terraform init -no-color
       - terraform plan -out=tfplan_commitid_${CODEBUILD_RESOLVED_SOURCE_VERSION}_pipelineid_${PIPELINE_EXECUTION_ID}
-      
+
   post_build:
     commands:
       - echo "Terraform plan completed on `date`"
