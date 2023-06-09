@@ -3,7 +3,6 @@ version: 0.2
 env:
   variables:
     TF_VERSION: "0.15.5"
-    PERMISSION_SETS_DIR: "permission_sets"
 
 phases:
 
@@ -16,13 +15,9 @@ phases:
 
   build:
     commands:
-      - cd ${CODEBUILD_SRC_DIR}/configurations
-      - cp -r *.tf ${PERMISSION_SETS_DIR}/
-      - cd ${CODEBUILD_SRC_DIR}/configurations/${PERMISSION_SETS_DIR}
       - terraform init -no-color
       - terraform plan -out=tfplan_commitid_${CODEBUILD_RESOLVED_SOURCE_VERSION}_pipelineid_${PIPELINE_EXECUTION_ID}
-      - cp tfplan_commitid_${CODEBUILD_RESOLVED_SOURCE_VERSION}_pipelineid_${PIPELINE_EXECUTION_ID} ${CODEBUILD_SRC_DIR}/
-
+      
   post_build:
     commands:
       - echo "Terraform plan completed on `date`"
